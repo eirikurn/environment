@@ -1,0 +1,61 @@
+# edit shortcut keys with live reload
+alias aliases='vim ~/.zsh/aliases && source ~/.zsh/aliases'
+
+# django
+alias solr='screen -S solr -m -d bin/django solr --start'
+alias d='bin/django'
+function ds(){
+  defPort=8000
+  port=${1:-$defPort} # default to port 8000
+  bin/django runserver 0.0.0.0:$port
+}
+
+# cd
+alias ..='cd ..'
+
+# enable color support of ls and also add handy aliases
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+
+    alias ls='ls --color=auto -F'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+else
+    alias ls='ls -F'
+fi
+
+# ls
+alias l="ls -lAh"
+alias ll="ls -l"
+alias la='ls -A'
+
+# top
+alias tu='top -o cpu'
+alias tm='top -o vsize'
+
+# git
+alias g='git status'
+alias ga='git add'
+alias gl='git pull'
+alias gp='git push'
+alias gd='git diff'
+alias gc='git commit -v'
+alias gca='git commit -v -a'
+function gg() {
+  git commit -v -a -m "$*"
+}
+alias gco='git checkout'
+alias gd='git diff'
+alias gb='git branch'
+alias gba='git branch -a'
+alias gs='git status'
+alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
+
+# commands starting with % for pasting from web
+alias %=' '
+
+# Project commands
+alias core2='cd ~/Code/sirius/core2/src/core2'
+alias claims='cd ~/Code/sirius/apps/claims/src/claims'
+alias glitnirbank='cd ~/Code/sirius/customers/glitnirbank'
