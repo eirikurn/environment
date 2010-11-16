@@ -59,3 +59,4 @@ alias %=' '
 alias core2='cd ~/Code/sirius/core2/src/core2'
 alias claims='cd ~/Code/sirius/apps/claims/src/claims'
 alias glitnirbank='cd ~/Code/sirius/customers/glitnirbank'
+

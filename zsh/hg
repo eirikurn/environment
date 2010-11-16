@@ -1,0 +1,15 @@
+# hg
+alias h='hg status'
+alias ha='hg add'
+alias hl='hg pull'
+alias hp='hg push'
+alias hd='hg diff'
+alias hc='hg commit'
+alias hca='hg commit -A'
+function hh() {
+  hg commit -A -m "$*"
+}
+alias hco='hg checkout'
+alias hb='hg branch'
+alias hba='hg branch -a'
+alias hrm="hg status | grep deleted | awk '{print \$3}' | xargs git rm"
