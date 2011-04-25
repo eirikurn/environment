@@ -44,7 +44,3 @@ zle -N newtab
 # bindkey '^[^N' newtab
 # bindkey '^?' backward-delete-char 
 
-export WORKON_HOME=/home/eirikur/.virtualenvs
-export PIP_RESPECT_VIRTUALENV=true
-source /usr/local/bin/virtualenvwrapper.sh
-

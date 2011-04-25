@@ -2,8 +2,6 @@
 alias aliases='vim ~/.zsh/aliases && source ~/.zsh/aliases'
 
 # django
-alias solr='screen -S solr -m -d bin/django solr --start'
-alias d='bin/django'
 function ds(){
   defPort=8000
   port=${1:-$defPort} # default to port 8000
@@ -54,9 +52,4 @@ alias grm="git status | grep deleted | awk '{print \$3}' | xargs git rm"
 
 # commands starting with % for pasting from web
 alias %=' '
-
-# Project commands
-alias core2='cd ~/Code/sirius/core2/src/core2'
-alias claims='cd ~/Code/sirius/apps/claims/src/claims'
-alias glitnirbank='cd ~/Code/sirius/customers/glitnirbank'
 
