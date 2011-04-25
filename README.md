@@ -1,18 +1,18 @@
-= EirikurN's Environment
+# EirikurN's Environment
 
 These are config files to set up a system the way I like it.
 
 The structure and installation scripts are derived from Ryan Bates's
 excellent [dotfiles repo](https://github.com/ryanb/dotfiles).
 
-== Installation
+## Installation
 
   git clone git://github.com/eirikurn/environment
   cd environment
   rake install
 
 
-== Environment
+## Environment
 
 I have tried to maintain varying support for all operating systems and 
 bourne-based shells, however my primary working environment is Linux and zsh.
@@ -22,7 +22,7 @@ Generally you'll need a recent vim with ruby support, and compile the
 Command-T binaries using rake.
 
 
-== Features
+## Features
 
 See aliases in ~/.zsh/aliases
 
