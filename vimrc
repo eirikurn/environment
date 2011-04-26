@@ -1,196 +1,165 @@
 " based on http://github.com/jferris/config_files/blob/master/vimrc
 
-" Use Vim settings, rather then Vi settings (much better!).
-" This must be first, because it changes other options as a side effect.
-set nocompatible
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
 
-" allow backspacing over everything in insert mode
+" Basic conf
+set nocompatible       " Use Vim settings instead of Vi settings. Must be first
+set number             " Display line numbers
+set numberwidth=5      " Use 5 char line number area
+set scrolloff=3        " Always display 3 lines above/below cursor when scrolling
+set nowrap             " Never wrap lines
+set title              " Display filename as window title
+set ruler              " Show the cursor position all the time
+set showcmd            " Display incomplete commands as you type in statusbar
+set laststatus=2       " Always display the status line
+set visualbell         " Disable annoying bell sound on error
+set mouse=a            " Enable mouse support
+let mapleader = "\\"   " \ is the leader character
+let g:mapleader = "\\"
+
+let g:zenburn_high_Contrast=1
+colorscheme zenburn     " HighContrast version of the zenburn Color scheme
+
+" Display extra whitespace
+set list
+set listchars=tab:>.,trail:.,extends:#,nbsp:.
+
+" Support tab completion when writing commands
+set wildmode=list:longest,list:full
+
+" Search behaviour
+set ignorecase         " Ignore case in regex search
+set smartcase          " Do not ignore case when regex has upper case letters
+set hlsearch           " Highlight search terms
+set incsearch          " Do incremental searching
+nnoremap <CR> :noh<CR><CR>
+
+" Tab behaviour
+set smartindent
+set tabstop=2
+set shiftwidth=2
+set expandtab
+
+" Persistent undo
+try
+  set undodir=~/.vim/undodir
+  set undofile
+  set undolevels=1000  " maximum number of changes that can be undone
+  set undoreload=10000 " maximum number of lines to save for undo on buffer reload
+catch
+endtry
+
+" Intuitive backspacing in insert mode
 set backspace=indent,eol,start
 
+" Backup, temporary and swap file behaviour
 set nobackup
 set nowritebackup
-set history=50		" keep 50 lines of command line history
-set ruler		" show the cursor position all the time
-set showcmd		" display incomplete commands
-set incsearch		" do incremental searching
+set backupdir=~/.vim/tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set directory=~/.vim/tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 
-set scrolloff=3
-set mouse=a
-
-" Don't use Ex mode, use Q for formatting
-map Q gq
-
-" This is an alternative that also works in block mode, but the deleted
-" text is lost and it only works for putting the current register.
-"vnoremap p "_dp
-
-" Switch syntax highlighting on, when the terminal has colors
-" Also switch on highlighting the last used search pattern.
-if (&t_Co > 2 || has("gui_running")) && !exists("syntax_on")
-  syntax on
-  set hlsearch
-endif
-
-" Switch wrap off for everything
-set nowrap
+" File type highlighting and configuration.
+syntax on
+filetype off    " For pathogen to work properly.
+filetype plugin indent on
 
 " Only do this part when compiled with support for autocommands.
 if has("autocmd")
-  " Enable file type detection.
-  " Use the default filetype settings, so that mail gets 'tw' set to 72,
-  " 'cindent' is on in C files, etc.
-  " Also load indent files, to automatically do language-dependent indenting.
-  filetype plugin indent on
-
-  " Set File type to 'text' for files ending in .txt
-  autocmd BufNewFile,BufRead *.txt setfiletype text
-
-  " Enable soft-wrapping for text files
-  autocmd FileType text,markdown,html,xhtml,eruby setlocal wrap linebreak nolist
-
-  " Put these in an autocmd group, so that we can delete them easily.
+  " Put these in an autocmd group
   augroup vimrcEx
-  au!
+    " Remove all autocommands (support reloading vimrc)
+    autocmd!
 
-  " For all text files set 'textwidth' to 78 characters.
-  " autocmd FileType text setlocal textwidth=78
+    " Set File types based on extension
+    autocmd BufNewFile,BufRead *.txt setfiletype text
+    autocmd BufNewFile,BufRead *.less setfiletype less
 
-  " When editing a file, always jump to the last known cursor position.
-  " Don't do it when the position is invalid or when inside an event handler
-  " (happens when dropping a file on gvim).
-  autocmd BufReadPost *
-    \ if line("'\"") > 0 && line("'\"") <= line("$") |
-    \   exe "normal g`\"" |
-    \ endif
+    " Apply custom settings for file types
+    autocmd FileType text,markdown,html,xhtml,eruby setlocal wrap linebreak nolist
+    autocmd FileType javascript set softtabstop=2|set shiftwidth=2|set expandtab
+    autocmd FileType html,xml set listchars-=tab:>.
 
-  " Automatically load .vimrc source when saved
-  autocmd BufWritePost .vimrc source $MYVIMRC
+    " When editing a file, always jump to the last known cursor position.
+    " Don't do it when the position is invalid or when inside an event handler
+    " (happens when dropping a file on gvim).
+    autocmd BufReadPost *
+      \ if line("'\"") > 0 && line("'\"") <= line("$") |
+      \   exe "normal g`\"" |
+      \ endif
 
+    " Automatically load .vimrc source when saved
+    autocmd BufWritePost .vimrc source $MYVIMRC
   augroup END
-
-else
-
-  set autoindent		" always set autoindenting on
-
-endif " has("autocmd")
-
-if has("folding")
-  set foldenable
-  set foldmethod=syntax
-  set foldlevel=1
-  set foldnestmax=2
-  set foldtext=strpart(getline(v:foldstart),0,50).'\ ...\ '.substitute(getline(v:foldend),'^[\ #]*','','g').'\ '
 endif
-
-" Softtabs, 4 spaces
-set tabstop=4
-set shiftwidth=4
-set expandtab
-
-" Always display the status line
-set laststatus=2
-
-" \ is the leader character
-let mapleader = "\\"
-
-" Edit the README_FOR_APP (makes :R commands work)
-map <Leader>R :e doc/README_FOR_APP<CR>
-
-" Hide search highlighting
-map <Leader>h :set invhls <CR>
 
 " Opens an edit command with the path of the currently edited file filled in
 " Normal mode: <Leader>e
 map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
 " File opening plugin
-map <Leader>t :FuzzyFinderTextMate<CR>
-map <Leader>b :FuzzyFinderBuffer<CR>
-
-" Move lines up and down
-map <C-J> :m +1 <CR>
-map <C-K> :m -2 <CR>
+map <Leader>b :FufBuffer<CR>
 
 map <F5> :NERDTreeToggle<CR>
 map <F6> :TlistToggle<CR>
 
-vmap < <gv
-vmap > >gv
+" Tab/shift-tab for indenting
+vmap <Tab> >gv
+vmap <S-Tab> <gv
+imap <S-Tab> <C-o><<
 
+" Shortcuts to save and close buffer
+nmap ss :w<CR>
 map qq :q<CR>
-map ss :w<CR>
 
+nmap . .`[
 
 " Inserts the path of the currently edited file into a command
 " Command mode: Ctrl+P
 cmap <C-P> <C-R>=expand("%:p:h") . "/" <CR>
 
-" Duplicate a selection
-" Visual mode: D
-vmap D y'>p
-
 " Press Shift+P while in visual mode to replace the selection without
 " overwriting the default register
 vmap P p :call setreg('"', getreg('0')) <CR>
 
-" For Haml
-au! BufRead,BufNewFile *.haml         setfiletype haml
+" Press ^F from insert mode to paste the default register
+inoremap <C-F> <C-R>"
 
-" Press ^F from insert mode to insert the current file name
-imap <C-F> <C-R>=expand("%")<CR>
+" Navigate location list, f.ex. after Ggrep
+map <C-J> :cn<CR>
+map <C-K> :cp<CR>
 
-map <M-j> :cn<CR>
-map <M-k> :cp<CR>
+vmap <C-C> :!~/.bin/coffee2js<CR>
+nmap <C-C> V:!~/.bin/coffee2js<CR>
 
-" Maps autocomplete to tab
-imap <Tab> <C-N>
+" Rename token in file
+nnoremap gr gD:%s/<C-R>///gc<left><left><left>
 
-" Display extra whitespace
-" set list listchars=tab:»·,trail:·
-
-" Edit routes
-command! Rroutes :e config/routes.rb
-command! Rschema :e db/schema.rb
-
-" Local config
-if filereadable(".vimrc.local")
-  source .vimrc.local
-endif
-
-" Use Ack instead of Grep when available
-if executable("ack")
-  set grepprg=ack\ -H\ --nogroup\ --nocolor\ --ignore-dir=tmp\ --ignore-dir=coverage
-endif
-
-" Color scheme
-" colorscheme vividchalk
-" highlight NonText guibg=#060606
-" highlight Folded  guibg=#0A0A0A guifg=#9090D0
-
-" Numbers
-set number
-set numberwidth=5
-
-" Snippets are activated by Shift+Tab
-let g:snippetsEmu_key = "<S-Tab>"
-
-" Tab completion options
-" (only complete to the longest unambiguous match, and show a menu)
-set completeopt=longest,menu
-set wildmode=list:longest,list:full
-set complete=.,t
-
+" Ignore filters for miscellaneous plugins.
 let NERDTreeIgnore=['\.pyc$','\.class$']
 let g:fuzzy_ignore="*.pyc,*.class"
-
-" case only matters with mixed case expressions
-set ignorecase
-set smartcase
+set wildignore+=*.pyc,*.class
 
 " Tags
 let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
 set tags=./tags;
 noremap <Leader>ptags :! ~/Code/tools/ptags.py **/*.py<CR>
 
-let g:fuf_splitPathMatching=1
+"Enable and disable mouse support using F12
+nnoremap <F12> :call ToggleMouse()<CR>
+function! ToggleMouse()
+  if &mouse == 'a'
+    set mouse=
+    set nonumber
+    echo "Mouse usage disabled"
+  else
+    set mouse=a
+    set number
+    echo "Mouse usage enabled"
+  endif
+endfunction
 
+" Local config
+if filereadable(".vimrc.local")
+  source .vimrc.local
+endif
