@@ -106,6 +106,7 @@ if has("gui_running")
     set guifont=Courier_New:h11:cDEFAULT
   endif
 endif
+set encoding=utf-8
 
 " Opens an edit command with the path of the currently edited file filled in
 " Normal mode: <Leader>e
