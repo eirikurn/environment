@@ -56,8 +56,8 @@ set backspace=indent,eol,start
 " Backup, temporary and swap file behaviour
 set nobackup
 set nowritebackup
-set backupdir=~/.vim/tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-set directory=~/.vim/tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+set backupdir=$TEMP,$TMP,.
+set directory=$TEMP,$TMP,.
 
 " File type highlighting and configuration.
 syntax on
@@ -150,9 +150,9 @@ nmap <C-C> V:!~/.bin/coffee2js<CR>
 nnoremap gr gD:%s/<C-R>///gc<left><left><left>
 
 " Ignore filters for miscellaneous plugins.
-let NERDTreeIgnore=['\.pyc$','\.class$']
-let g:fuzzy_ignore="*.pyc,*.class"
-set wildignore+=*.pyc,*.class
+let NERDTreeIgnore=['\.pyc$','\.class$','\.sock']
+let g:fuzzy_ignore="*.pyc,*.class,*.sock"
+set wildignore+=*.pyc,*.class,*.sock,node_modules
 
 " Tags
 let g:Tlist_Ctags_Cmd="ctags --exclude='*.js'"
