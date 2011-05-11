@@ -111,9 +111,6 @@ endif
 " Normal mode: <Leader>e
 map <Leader>e :e <C-R>=expand("%:p:h") . "/" <CR>
 
-" File opening plugin
-map <Leader>b :FufBuffer<CR>
-
 map <F5> :NERDTreeToggle<CR>
 map <F6> :TlistToggle<CR>
 
@@ -151,7 +148,6 @@ nnoremap gr gD:%s/<C-R>///gc<left><left><left>
 
 " Ignore filters for miscellaneous plugins.
 let NERDTreeIgnore=['\.pyc$','\.class$','\.sock']
-let g:fuzzy_ignore="*.pyc,*.class,*.sock"
 set wildignore+=*.pyc,*.class,*.sock,node_modules
 
 " Tags
