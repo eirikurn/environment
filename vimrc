@@ -142,8 +142,11 @@ inoremap <C-F> <C-R>"
 map <C-J> :cn<CR>
 map <C-K> :cp<CR>
 
-vmap <C-C> :!~/.bin/coffee2js<CR>
-nmap <C-C> V:!~/.bin/coffee2js<CR>
+" vmap <C-C> :!~/.bin/coffee2js<CR>
+" nmap <C-C> V:!~/.bin/coffee2js<CR>
+
+map <C-c> "+y<CR>
+map <C-v> "+gP<CR>
 
 " Rename token in file
 nnoremap gr gD:%s/<C-R>///gc<left><left><left>
