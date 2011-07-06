@@ -15,6 +15,7 @@ set showcmd            " Display incomplete commands as you type in statusbar
 set laststatus=2       " Always display the status line
 set visualbell         " Disable annoying bell sound on error
 set mouse=a            " Enable mouse support
+set ff=unix,dos        " Prefer unix line endings
 let mapleader = "\\"   " \ is the leader character
 let g:mapleader = "\\"
 
